@@ -1,4 +1,5 @@
 import random
+from functools import reduce
    
 def menu():
     while True:
@@ -17,12 +18,39 @@ def menu():
             break
         if balance_logout == 0:
             break
+            
+def luhncheck(num):
+    check = int(str(num)[-1])
+    num_list = [int(x) for x in str(num)[0:15]]
+    for i in range(len(num_list)):
+        if (i + 1) % 2 == 1:
+            num_list[i] *= 2
+        if num_list[i] > 9:
+            num_list[i] -= 9
+    luhn = (sum(num_list) + check)
+    if luhn % 10 == 0:
+        return True
+    else:
+        return False
 
+    
 def create_account():
     global account
     global pin
+    account = "400000"
+    acumulative_num = 8
+    for i in range(0, 9):
+        random_num = random.randint(0, 9)
+        account += str(random_num)
+        if i % 2 == 0:
+            if random_num > 4:
+                acumulative_num += random_num * 2 - 9
+            else:
+                acumulative_num += random_num * 2
+        else:
+            acumulative_num += random_num
+    account += str((10 - acumulative_num % 10) % 10)
     random.seed(random.random())
-    account = '{:016d}'.format(random.randrange(4000001000000000, 4000009999999999))
     pin = '{:04d}'.format(random.randrange(0000, 9999))
     print(f"""Your card has been created
 Your card number:
