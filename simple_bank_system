@@ -1,0 +1,64 @@
+import random
+   
+def menu():
+    while True:
+        global balance_logout
+        balance_logout = 1
+        print("1. Create an account")
+        print("2. Log into account")
+        print("0. Exit")
+        user_input = input()
+        print("")
+        if user_input == "1":
+            create_account()
+        elif user_input == "2":
+            log_in()
+        elif user_input == "0":
+            break
+        if balance_logout == 0:
+            break
+
+def create_account():
+    global account
+    global pin
+    random.seed(random.random())
+    account = '{:016d}'.format(random.randrange(4000001000000000, 4000009999999999))
+    pin = '{:04d}'.format(random.randrange(0000, 9999))
+    print(f"""Your card has been created
+Your card number:
+{account}
+Your card PIN:
+{pin}
+""")
+
+def log_in():
+    print("Enter your card number:")
+    enter_number = input()
+    if enter_number == account:
+        print("Enter your PIN:")
+        enter_pin = input()
+        if enter_pin == pin:
+            print("\nYou have successfully logged in!\n")
+            account_manage(account)
+        else:
+            print("\nWrong card number or PIN!\n")
+    else: 
+        print("\nWrong card number or PIN!\n")
+        
+def account_manage(account):
+    global balance_logout
+    print("""1. Balance
+2. Log out
+0. Exit""")
+    while True:
+        balance_logout = int(input())
+        if balance_logout == 1:
+            print("Balance: 0")
+        elif balance_logout == 2:
+            print("\nYou have successfully logged out!\n")
+        elif balance_logout == 0:
+            break
+
+menu()
+
+print("Bye!")
